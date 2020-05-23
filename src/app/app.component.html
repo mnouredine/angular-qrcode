@@ -1,0 +1,78 @@
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://shaawamedia.com" target="_blank">
+      <img src="assets/shaawamedia_logo.png" width="auto" height="50" alt="Shaawa Media Logo" loading="lazy">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+      aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">        
+        <li class="nav-item">
+          <a class="nav-link" href="#">A propos de Shaawa Media</a>
+        </li>        
+      </ul>
+    </div>
+  </div>
+</nav>
+<header class="masthead">
+  <div class="container h-100">
+    <div class="row h-100 align-items-center">
+      <div class="col-xs-12 col-md-6">
+        <form name="qrform" (ngSubmit)="generate()" novalidate>
+          <div class="row">
+            <div class="col-12">
+              <h2 class="font-weight-bold">Générateur de code QR</h2>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <label for="content">Texte à encoder *</label>
+                <input type="text" [(ngModel)]="content" name="content" class="form-control form-control-lg" id="content" aria-describedby="emailHelp" required (change)="contentChange($event.target.value)">
+                <small id="emailHelp" class="form-text text-muted">Entrez ici le text ou l'URL que vous voulez convertir
+                  en code QR</small>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="size">Longeur / Largeur (px)</label>
+                <input type="number" [(ngModel)]="size" name="size" class="form-control form-control-lg" id="size" aria-describedby="sizeHelp">
+                <small id="sizeHelp" class="form-text text-muted">par défaut: 256</small>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="ecc">Correction d'erreur</label>
+                <!-- <input type="number" [(ngModel)]="height" name="height" class="form-control form-control-lg" id="height"> -->
+                <select [(ngModel)]="ecc" name="ecc" class="form-control form-control-lg" id="ecc"  aria-describedby="eccHelp">
+                  <option value="1">L</option>
+                  <option value="2">M</option>
+                  <option value="3">Q</option>
+                  <option value="4">H</option>
+                </select>
+                <small id="eccHelp" class="form-text text-muted">par défaut: H</small>
+              </div>
+            </div>
+            <div class="col-12">
+              <button [disabled]="!content" type="submit" class="btn btn-lg btn-primary btn-generate mb-2"><i class="fa fa-qrcode"></i> Générer</button>
+              <button type="button" class="btn btn-lg btn-secondary btn-generate" id="download"><i class="fa fa-download"></i> Télécharger (.png)</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-xs-12 col-md-6 text-center">
+        <div class="qr-zone">
+          <div *ngIf="lds" class="lds-ring"><div></div><div></div><div></div><div></div></div>
+            <div class="init" *ngIf="init">
+              <p class="lead">Votre code QR va apparaitre ici</p>
+              <h2><i class="fa fa-qrcode"></i></h2>
+            </div>
+            <div class="qrcode" *ngIf="qrcode">
+              <qrcode id="myqrcode" [level]="ecc" [qrvalue]="content" [size]="size"></qrcode>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
